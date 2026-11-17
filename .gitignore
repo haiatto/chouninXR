@@ -58,3 +58,10 @@ Thumbs.db
 
 # 村データに置く VRM は各自の手元で（配布ライセンスを確認してからコミットする）
 villages/**/*.vrm
+
+# ビルド時に villages/ から自動コピーされる同梱用データ
+ChouninXR/Assets/StreamingAssets/villages/
+ChouninXR/Assets/StreamingAssets/villages.meta
+
+# Android ビルドの中間ファイル
+ChouninXR/.utmp/

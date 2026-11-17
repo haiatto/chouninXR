@@ -11,7 +11,8 @@ Google の Geospatial API（VPS）で緯度・経度・高度に町人を配置�
 
 ## 状態
 
-設計段階です。設計の全体像は [docs/DESIGN.md](docs/DESIGN.md) を参照してください。
+開発初期です。エディタ上のシミュレーションで町人が話すところまで動きます。AURA 版はビルドできますが実機は未検証です。
+設計の全体像は [docs/DESIGN.md](docs/DESIGN.md) を参照してください。
 
 ## 構成
 
@@ -46,9 +47,32 @@ VRM ファイルは配布条件がモデルごとに違うため、リポジト�
 - ローカル LLM（Gemma など）でセリフを生成し、音声認識で会話する
 - GitHub リポジトリで町人データを配布・管理する
 
-## API キーについて
+## AURA（Android XR）版をビルドする
 
-Geospatial API には Google Cloud の API キーが必要です。キーはこのリポジトリにコミットしないでください。
+1. Unity のビルド先を Android に切り替える
+2. メニュー **ChouninXR > AURA > Run All**（OpenXR の機能、Player 設定、`Aura.unity` シーンを作る）
+3. メニュー **ChouninXR > AURA > APK ビルド**（`ChouninXR/Builds/Aura/` に出力）
+
+`villages/` の村データはビルド時に自動でアプリへ同梱され、初回起動時に端末へ展開されます。
+
+## Google Cloud の設定（Keyless 認証）
+
+Geospatial API は Google のサーバー（VPS）を使うため、Google Cloud にアプリを登録します。
+API キーは使わず **Keyless 認証**（アプリの署名で認証する方式）にしているので、キーをアプリやリポジトリに入れる必要はありません。
+ARCore API は 2026-11 時点で利用量の上限（クォータ）のみで、課金はありません。
+
+1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを作る
+2. **ARCore API** を有効にする
+3. 「認証情報」で **OAuth クライアント ID（種類：Android）** を作る
+   - パッケージ名：`io.github.haiatto.chouninxr`（fork した場合は自分のものに変える）
+   - SHA-1：ビルドに使う keystore のもの。Unity の既定（デバッグ用）なら次で確認できる
+
+     ```
+     keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android
+     ```
+4. OAuth 同意画面の設定を求められたら、最低限の内容で作る
+
+デバッグ用と本番用で keystore を分ける場合は、それぞれの SHA-1 を登録します。
 
 ## ライセンス
 

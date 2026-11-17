@@ -7,7 +7,9 @@
         "Google.XR.Extensions",
         "Unity.XR.ARFoundation",
         "Unity.XR.ARSubsystems",
-        "Unity.XR.OpenXR"
+        "Unity.XR.OpenXR",
+        "Unity.TextMeshPro",
+        "Google.XR.Extensions.SpatialEntities"
     ],
     "includePlatforms": [
         "Android",

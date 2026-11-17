@@ -40,17 +40,18 @@ namespace ChouninXR
 #endif
         }
 
-        private void Start()
+        private System.Collections.IEnumerator Start()
         {
             _world = world as IChouninWorld;
             if (_world == null)
             {
                 Debug.LogError("[Chounin] world に IChouninWorld を実装したコンポーネントを指定してください");
                 enabled = false;
-                return;
+                yield break;
             }
 
             var dir = ResolveVillagePath(villagePath);
+            yield return VillageInstaller.EnsureInstalled(villagePath, dir);
             Village = Village.LoadFromDirectory(dir);
             Debug.Log($"[Chounin] 村「{Village.data.name}」を読み込みました（{Village.chounins.Count}人） {dir}");
         }

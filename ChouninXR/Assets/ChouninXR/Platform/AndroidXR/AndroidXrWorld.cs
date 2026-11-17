@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Google.XR.Extensions;
 using UnityEngine;
 using UnityEngine.XR.OpenXR;
@@ -22,7 +21,7 @@ namespace ChouninXR.AndroidXR
         public double requiredYawAccuracy = 10.0;
 
         private AndroidXRPermissionUtil _permissions;
-        private bool _authStarted;
+        private bool _setupDone;
         private string _authStatus = "認証前";
         private XRGeospatialPoseResult _lastPose;
         private bool _hasPose;
@@ -47,14 +46,30 @@ namespace ChouninXR.AndroidXR
         private void Awake()
         {
             _permissions = GetComponent<AndroidXRPermissionUtil>();
+            if (geospatialManager != null)
+            {
+                // 権限がそろうまで止めておく（サンプルと同じ流れ）
+                geospatialManager.enabled = false;
+            }
+        }
+
+        private void OnEnable()
+        {
+            XRGoogleCloudFeature.OnAuthResultReceived += OnAuthResult;
+        }
+
+        private void OnDisable()
+        {
+            XRGoogleCloudFeature.OnAuthResultReceived -= OnAuthResult;
+            Input.location.Stop();
         }
 
         private void Update()
         {
-            if (!_authStarted && _permissions.AllPermissionGranted())
+            if (!_setupDone && _permissions.AllPermissionGranted())
             {
-                _authStarted = true;
-                _ = AuthenticateAsync();
+                _setupDone = true;
+                StartGeospatial();
             }
 
             _hasPose = false;
@@ -69,32 +84,42 @@ namespace ChouninXR.AndroidXR
             }
         }
 
-        private async Task AuthenticateAsync()
+        private void StartGeospatial()
         {
-            var cloud = OpenXRSettings.Instance.GetFeature<XRGoogleCloudFeature>();
-            if (cloud == null)
+            // GPS（VPS の初期位置に使われる）
+            if (Input.location.isEnabledByUser)
             {
-                _authStatus = "Google Cloud 機能が無効";
-                return;
+                Input.location.Start();
+            }
+            else
+            {
+                Debug.LogWarning("[Chounin] 端末の位置情報がオフです");
             }
 
-            // Keyless 認証（アプリの署名と Google Cloud の OAuth クライアントを紐づける方式）。
-            // API キーをアプリに埋め込まずに済む。
-            for (int attempt = 0; attempt < 5; attempt++)
+            // 認証は OpenXR 機能「Android XR: Google Cloud」の設定（Keyless）で
+            // セッション開始時に自動で行われる。ここでは結果を受け取るだけ。
+            var cloud = OpenXRSettings.Instance.GetFeature<XRGoogleCloudFeature>();
+            if (cloud == null || !cloud.enabled)
             {
-                var result = await cloud.TrySetAuthenticationAsync(XRAuthenticationStrategy.Keyless);
-                if (result.IsSuccess())
-                {
-                    _authStatus = "OK";
-                    if (geospatialManager != null && !geospatialManager.enabled)
-                    {
-                        geospatialManager.enabled = true;
-                    }
-                    return;
-                }
-                _authStatus = $"失敗 {result}";
-                await Task.Delay(2000);
+                _authStatus = "Google Cloud 機能が無効";
             }
+            else if (_authStatus == "認証前")
+            {
+                _authStatus = "自動（Keyless）";
+            }
+
+            if (geospatialManager != null)
+            {
+                geospatialManager.enabled = true;
+            }
+        }
+
+        private void OnAuthResult(XRGoogleCloudAuthResult result)
+        {
+            _authStatus = result.CloudAuthError == XRGoogleCloudAuthError.None
+                ? "OK"
+                : $"エラー {result.CloudAuthError}";
+            Debug.Log($"[Chounin] Google Cloud 認証: {result}");
         }
 
         public async void RequestPlacement(ChouninData chounin, Action<Transform> onPlaced)

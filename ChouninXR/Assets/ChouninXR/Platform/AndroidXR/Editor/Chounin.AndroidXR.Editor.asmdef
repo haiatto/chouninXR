@@ -1,0 +1,32 @@
+{
+    "name": "Chounin.AndroidXR.Editor",
+    "rootNamespace": "ChouninXR.AndroidXR.EditorTools",
+    "references": [
+        "Chounin.Core",
+        "Chounin.Runtime",
+        "Chounin.AndroidXR",
+        "Google.XR.Extensions",
+        "Google.XR.Extensions.SpatialEntities",
+        "Unity.XR.OpenXR",
+        "Unity.XR.OpenXR.Editor",
+        "Unity.XR.Management",
+        "Unity.XR.Management.Editor",
+        "Unity.XR.CoreUtils",
+        "Unity.XR.CoreUtils.Editor",
+        "Unity.XR.ARFoundation",
+        "Unity.XR.AndroidOpenXR",
+        "Unity.XR.Hands",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

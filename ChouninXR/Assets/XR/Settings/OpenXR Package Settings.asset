@@ -306,7 +306,7 @@ MonoBehaviour:
   m_symmetricProjection: 0
   m_optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
-  m_hasMigratedMultiviewRenderRegionSetting: 0
+  m_hasMigratedMultiviewRenderRegionSetting: 1
   m_foveatedRenderingApi: 1
   m_useOpenXRPredictedTime: 1
 --- !u!114 &-7169870078670803911
@@ -728,7 +728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e4854d42a94cccbb16cf9736c37576, type: 3}
   m_Name: OpenXRLifeCycleFeature Android
   m_EditorClassIdentifier: Unity.XR.AndroidOpenXR::UnityEngine.XR.OpenXR.Features.Android.OpenXRLifeCycleFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 
   version: 0.1.0
   featureIdInternal: AndroidXR-OpenXRLifeCycle
@@ -785,7 +785,7 @@ MonoBehaviour:
   lateLatchingDebug: 0
   optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
-  m_hasMigratedMultiviewRenderRegions: 0
+  m_hasMigratedMultiviewRenderRegions: 1
   spacewarpMotionVectorTextureFormat: 0
 --- !u!114 &-4437937437776545910
 MonoBehaviour:
@@ -821,7 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9968a003be3847388ac9899285499b9d, type: 3}
   m_Name: ARSessionFeature Android
   m_EditorClassIdentifier: Unity.XR.AndroidOpenXR::UnityEngine.XR.OpenXR.Features.Android.ARSessionFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Android XR: Session'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-androidxr-session
@@ -1250,7 +1250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ae1e8c3c7a542bba339faf2e771c5a, type: 3}
   m_Name: AndroidXRSupportFeature Android
   m_EditorClassIdentifier: Unity.XR.AndroidOpenXR::UnityEngine.XR.OpenXR.Features.Android.AndroidXRSupportFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Android XR Support
   version: 1.0.0
   featureIdInternal: com.unity.openxr.feature.androidxr-support
@@ -1303,7 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22659b3b811f4067998fde27d63f4c4, type: 3}
   m_Name: ARAnchorFeature Android
   m_EditorClassIdentifier: Unity.XR.AndroidOpenXR::UnityEngine.XR.OpenXR.Features.Android.ARAnchorFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Android XR: Anchors'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-androidxr-anchor
@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8611aea2850a4bbc86c172892235ae7, type: 3}
   m_Name: SpatialLifecycleFeature Android
   m_EditorClassIdentifier: Google.XR.Extensions.SpatialEntities::Google.XR.Extensions.SpatialEntities.SpatialLifecycleFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Spatial Entities (Extensions): Lifecycle'
   version: 1.0.0
   featureIdInternal: com.google.xr.extensions.spatialentities.lifecycle
@@ -1719,7 +1719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a692612424aed49a493bcedf0dcd7a50, type: 3}
   m_Name: XRUnboundedRefSpaceFeature Android
   m_EditorClassIdentifier: Google.XR.Extensions::Google.XR.Extensions.XRUnboundedRefSpaceFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Android XR: Unbounded Reference Space'
   version: 1.0.0
   featureIdInternal: com.google.xr.extensions.unboundedrefspace
@@ -1788,7 +1788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54b7667ddc424165b33ce8c03ab8816, type: 3}
   m_Name: XRGeospatialFeature Android
   m_EditorClassIdentifier: Google.XR.Extensions::Google.XR.Extensions.XRGeospatialFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Android XR: Geospatial'
   version: 1.0.0
   featureIdInternal: com.google.xr.extensions.geospatial
@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b0b4cceab934225b036fb96b1d33bc, type: 3}
   m_Name: SpatialShareableAnchorFeature Android
   m_EditorClassIdentifier: Google.XR.Extensions.SpatialEntities::Google.XR.Extensions.SpatialEntities.SpatialShareableAnchorFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Spatial Entities (Extensions): Shareable Anchors'
   version: 1.0.0
   featureIdInternal: com.google.xr.extensions.spatialentities.shareable_anchor
@@ -1821,7 +1821,7 @@ MonoBehaviour:
   required: 0
   customRuntimeLoaderName: 
   _autoLoadPersistedAnchors: 1
-  _enableGeospatialHost: 0
+  _enableGeospatialHost: 1
 --- !u!114 &3566063851648683045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1924,7 +1924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1de50525c9641288a102ed3682fd1d, type: 3}
   m_Name: XRSessionFeature Android
   m_EditorClassIdentifier: Google.XR.Extensions::Google.XR.Extensions.XRSessionFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Android XR (Extensions): Session Management'
   version: 1.0.0
   featureIdInternal: com.google.xr.extensions.session_management
@@ -2032,7 +2032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c6863ce0f3145d5849c8c0daed182a, type: 3}
   m_Name: XRGoogleCloudFeature Android
   m_EditorClassIdentifier: Google.XR.Extensions::Google.XR.Extensions.XRGoogleCloudFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: 'Android XR: Google Cloud'
   version: 1.0.0
   featureIdInternal: com.google.xr.extensions.google_cloud
@@ -2734,7 +2734,7 @@ MonoBehaviour:
   m_symmetricProjection: 0
   m_optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
-  m_hasMigratedMultiviewRenderRegionSetting: 0
+  m_hasMigratedMultiviewRenderRegionSetting: 1
   m_foveatedRenderingApi: 1
   m_useOpenXRPredictedTime: 1
 --- !u!114 &8229945463908612010
@@ -2749,7 +2749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e314dfef9af0904e80129bcc0a79361, type: 3}
   m_Name: HandTracking Android
   m_EditorClassIdentifier: Unity.XR.Hands::UnityEngine.XR.Hands.OpenXR.HandTracking
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Hand Tracking Subsystem
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.handtrackingsubsystem
