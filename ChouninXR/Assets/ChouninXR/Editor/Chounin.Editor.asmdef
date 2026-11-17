@@ -1,0 +1,23 @@
+{
+    "name": "Chounin.Editor",
+    "rootNamespace": "ChouninXR.EditorTools",
+    "references": [
+        "Chounin.Core",
+        "Chounin.Runtime",
+        "Chounin.EditorSim",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

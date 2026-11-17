@@ -1,14 +1,15 @@
 # Unity
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
-/[Mm]emoryCaptures/
-/[Rr]ecordings/
-/Assets/Plugins/Editor/JetBrains*
+ChouninXR/[Ll]ibrary/
+ChouninXR/[Tt]emp/
+ChouninXR/[Oo]bj/
+ChouninXR/[Bb]uild/
+ChouninXR/[Bb]uilds/
+ChouninXR/[Ll]ogs/
+ChouninXR/[Uu]ser[Ss]ettings/
+ChouninXR/[Mm]emoryCaptures/
+ChouninXR/[Rr]ecordings/
+ChouninXR/Assets/Plugins/Editor/JetBrains*
+*.slnx
 .vs/
 .vscode/
 .idea/
@@ -54,3 +55,6 @@ secrets.json
 # OS
 .DS_Store
 Thumbs.db
+
+# 村データに置く VRM は各自の手元で（配布ライセンスを確認してからコミットする）
+villages/**/*.vrm

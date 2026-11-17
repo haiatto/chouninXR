@@ -1,0 +1,24 @@
+{
+    "name": "Chounin.AndroidXR",
+    "rootNamespace": "ChouninXR.AndroidXR",
+    "references": [
+        "Chounin.Core",
+        "Chounin.Runtime",
+        "Google.XR.Extensions",
+        "Unity.XR.ARFoundation",
+        "Unity.XR.ARSubsystems",
+        "Unity.XR.OpenXR"
+    ],
+    "includePlatforms": [
+        "Android",
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

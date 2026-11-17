@@ -1,0 +1,7 @@
+{
+  "schema": "chouninxr/village@1",
+  "id": "sample",
+  "name": "見本の村",
+  "author": "haiatto",
+  "description": "2022年版の町人を再現した見本。VRM は同梱していないので、model.vrm を置くとその姿で表示される（無ければ仮の体）。"
+}

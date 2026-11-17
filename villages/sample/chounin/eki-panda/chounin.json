@@ -1,0 +1,23 @@
+{
+  "schema": "chouninxr/chounin@1",
+  "id": "eki-panda",
+  "name": "改札のおじさん",
+  "model": { "vrm": "model.vrm", "scale": 1.0 },
+  "placement": {
+    "lat": 35.714448,
+    "lng": 139.776564,
+    "altitudeMode": "terrain",
+    "altitude": 0.0,
+    "heading": 120
+  },
+  "talk": {
+    "triggerRadius": 3.0,
+    "leaveRadius": 6.0,
+    "lines": [
+      "パンダにあいたいかー！！！",
+      "この先にいるぞ！",
+      "えいえいおー"
+    ]
+  },
+  "llm": { "enabled": false, "prompt": "" }
+}

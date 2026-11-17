@@ -1,0 +1,21 @@
+{
+  "schema": "chouninxr/chounin@1",
+  "id": "kunoichi-kaidan",
+  "name": "くノ一",
+  "model": { "vrm": "model.vrm", "scale": 1.0 },
+  "placement": {
+    "lat": 35.674786,
+    "lng": 139.738972,
+    "altitudeMode": "terrain",
+    "altitude": 0.0,
+    "heading": 0
+  },
+  "talk": {
+    "triggerRadius": 3.0,
+    "leaveRadius": 6.0,
+    "lines": [
+      "くノ一階段へようこそ"
+    ]
+  },
+  "llm": { "enabled": false, "prompt": "" }
+}
