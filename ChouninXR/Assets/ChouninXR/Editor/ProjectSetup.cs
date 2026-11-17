@@ -77,13 +77,23 @@ namespace ChouninXR.EditorTools
             ground.name = "Ground";
             ground.transform.localScale = new Vector3(100f, 1f, 100f);
 
+            // 高さの吸着を試すための台（高さ 0.5m）
+            var stage = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            stage.name = "Stage";
+            stage.transform.position = new Vector3(-2.5f, 0.25f, 3f);
+            stage.transform.localScale = new Vector3(1.2f, 0.5f, 1.2f);
+
             var worldGo = new GameObject("SimWorld");
             var world = worldGo.AddComponent<SimWorld>();
+            world.surface = worldGo.AddComponent<SimSurface>();
 
             var spawnerGo = new GameObject("ChouninSpawner");
             var spawner = spawnerGo.AddComponent<ChouninSpawner>();
             spawner.world = world;
             world.spawner = spawner;
+
+            var editor = new GameObject("PlacementEditor").AddComponent<PlacementEditor>();
+            editor.spawner = spawner;
 
             var camGo = new GameObject("Viewer");
             camGo.tag = "MainCamera";
@@ -94,10 +104,18 @@ namespace ChouninXR.EditorTools
             var player = camGo.AddComponent<SimPlayer>();
             player.spawner = spawner;
             player.world = world;
+            player.editor = editor;
             world.viewer = camGo.transform;
 
             EditorSceneManager.SaveScene(scene, SimScenePath);
-            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(SimScenePath, true) };
+            if (!System.Linq.Enumerable.Any(EditorBuildSettings.scenes, s => s.path == SimScenePath))
+            {
+                var list = new System.Collections.Generic.List<EditorBuildSettingsScene>(EditorBuildSettings.scenes)
+                {
+                    new EditorBuildSettingsScene(SimScenePath, true),
+                };
+                EditorBuildSettings.scenes = list.ToArray();
+            }
         }
     }
 }

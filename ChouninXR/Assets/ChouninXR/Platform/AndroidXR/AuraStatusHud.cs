@@ -8,6 +8,7 @@ namespace ChouninXR.AndroidXR
     public class AuraStatusHud : MonoBehaviour
     {
         public MonoBehaviour world;
+        public PlacementEditor editor;
         public Camera viewerCamera;
         public float distance = 1.2f;
         public float downAngle = 20f;
@@ -60,7 +61,8 @@ namespace ChouninXR.AndroidXR
             if (Time.unscaledTime >= _nextUpdate && _text != null)
             {
                 _nextUpdate = Time.unscaledTime + 0.25f;
-                _text.text = _world != null ? _world.StatusText : "world 未設定";
+                _text.text = (_world != null ? _world.StatusText : "world 未設定") +
+                             (editor != null && editor.IsEditing ? "\n" + editor.StatusText : "");
             }
         }
     }

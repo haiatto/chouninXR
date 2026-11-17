@@ -37,18 +37,44 @@ namespace ChouninXR
         public const string Rooftop = "rooftop";
         // WGS84 楕円体高（Geospatial が返す altitude と同じ基準）
         public const string Wgs84 = "wgs84";
+        // その場で見つかった面（メッシュ → 平面 → 地面相当の順）に立たせる。
+        // 地図の標高や Geospatial の高度は数 m ずれることがあるので、現地で直接置いた町人はこれを使う。
+        // altitude には置いたときの WGS84 高度を「目安」として残す（面が見つかるまでの仮の高さ）。
+        public const string Surface = "surface";
     }
 
+    // 座標の基準は GeoPose と docs/COORDINATES.md：
+    //   lat/lng = WGS84 [度]、wgs84/surface の altitude = WGS84 楕円体高 [m]、heading = 真北から時計回り [度]
     [Serializable]
     public class ChouninPlacement
     {
         public double lat;
         public double lng;
         public string altitudeMode = AltitudeModes.Terrain;
-        // terrain / rooftop では面からのオフセット[m]、wgs84 では楕円体高[m]
+        // terrain / rooftop では面からのオフセット[m]、wgs84 では楕円体高[m]、
+        // surface では置いたときの WGS84 高度（目安）
         public double altitude;
+        // surface のとき、見つかった面からの高さ[m]（台の上に立たせたいときなど）
+        public float heightAboveSurface;
         // 向いている方位（北=0、時計回り、度）
         public float heading;
+        // どうやって置いたかの記録（精度・取得元・日時）。位置ずれを調べるときに使う
+        public ChouninPlacementRecord placedWith = new ChouninPlacementRecord();
+    }
+
+    [Serializable]
+    public class ChouninPlacementRecord
+    {
+        // GeoSources（geospatial-vps / editor-sim / map）。空なら不明
+        public string source;
+        // 置いたときの精度 [m] / [度]。負の値は不明
+        public double horizontalAccuracy = -1;
+        public double verticalAccuracy = -1;
+        public double headingAccuracy = -1;
+        // ISO 8601（UTC）
+        public string placedAtUtc;
+        // 高さを決めた面（mesh / plane / ground-estimate）
+        public string surface;
     }
 
     [Serializable]

@@ -39,6 +39,10 @@ namespace ChouninXR.AndroidXR.EditorTools
             "AndroidXRSupportFeature",
             "ARSessionFeature",
             "ARAnchorFeature",
+            // 直接配置の高さ合わせ（メッシュ → 平面 → 地面相当）
+            "ARMeshFeature",
+            "ARPlaneFeature",
+            "ARRaycastFeature",
             // Google Android XR Extensions
             "XRSessionFeature",
             "XRGoogleCloudFeature",
@@ -305,15 +309,35 @@ namespace ChouninXR.AndroidXR.EditorTools
             // Geospatial（サンプルと同じく XR Origin に付ける）
             var permissions = originGo.AddComponent<AndroidXRPermissionUtil>();
             permissions.GenernalAndroidPermissions = new List<string> { "android.permission.ACCESS_FINE_LOCATION" };
-            permissions.AndroidXRPermissions = new List<AndroidXRPermission> { AndroidXRPermission.SceneUnderstandingCoarse };
+            // Fine はメッシュ・レイキャストに必要（Coarse を含む）。ハンドトラッキングは編集操作に使う
+            permissions.AndroidXRPermissions = new List<AndroidXRPermission>
+            {
+                AndroidXRPermission.SceneUnderstandingFine,
+                AndroidXRPermission.HandTracking,
+            };
             permissions.PermissionRationale = "町人を現実の場所に立たせるため、位置情報と周囲の認識を使います。";
             var geo = originGo.AddComponent<XRGeospatialManager>();
             geo.enabled = false;
             originGo.AddComponent<ARShareableAnchorManager>();
 
+            // 面：平面検出・レイキャスト・環境メッシュ（ARMeshManager は XR Origin の子に置く決まり）
+            var planes = originGo.AddComponent<ARPlaneManager>();
+            planes.requestedDetectionMode = UnityEngine.XR.ARSubsystems.PlaneDetectionMode.Horizontal;
+            var raycasts = originGo.AddComponent<ARRaycastManager>();
+            var meshingGo = new GameObject("Meshing");
+            meshingGo.transform.SetParent(originGo.transform, false);
+            var meshing = meshingGo.AddComponent<ARMeshManager>();
+            meshing.meshPrefab = GetOrCreateMeshPrefab();
+            meshing.normals = true;
+            var surface = originGo.AddComponent<AuraSurface>();
+            surface.raycastManager = raycasts;
+            surface.planeManager = planes;
+            surface.viewerCamera = cam;
+
             var world = originGo.AddComponent<AndroidXrWorld>();
             world.geospatialManager = geo;
             world.viewerCamera = cam;
+            world.surface = surface;
 
             var spawnerGo = new GameObject("ChouninSpawner");
             var spawner = spawnerGo.AddComponent<ChouninSpawner>();
@@ -327,7 +351,15 @@ namespace ChouninXR.AndroidXR.EditorTools
                 textColor = Color.white,
             };
 
+            var editor = new GameObject("PlacementEditor").AddComponent<PlacementEditor>();
+            editor.spawner = spawner;
+            var hands = new GameObject("HandInput").AddComponent<AuraHandInput>();
+            hands.editor = editor;
+            hands.spawner = spawner;
+            hands.viewerCamera = cam;
+
             var hud = new GameObject("StatusHud").AddComponent<AuraStatusHud>();
+            hud.editor = editor;
             hud.world = world;
             hud.viewerCamera = cam;
 
@@ -336,6 +368,25 @@ namespace ChouninXR.AndroidXR.EditorTools
             var scenes = EditorBuildSettings.scenes.Where(s => s.path != ScenePath).ToList();
             scenes.Insert(0, new EditorBuildSettingsScene(ScenePath, true));
             EditorBuildSettings.scenes = scenes.ToArray();
+        }
+
+        // 環境メッシュ用のプレハブ：当たり判定だけ（光学シースルーなので描画しない）
+        private const string MeshPrefabPath = "Assets/ChouninXR/Platform/AndroidXR/Prefabs/EnvironmentMesh.prefab";
+
+        private static MeshFilter GetOrCreateMeshPrefab()
+        {
+            var existing = AssetDatabase.LoadAssetAtPath<GameObject>(MeshPrefabPath);
+            if (existing != null)
+            {
+                return existing.GetComponent<MeshFilter>();
+            }
+            Directory.CreateDirectory(Path.GetDirectoryName(MeshPrefabPath));
+            var go = new GameObject("EnvironmentMesh");
+            go.AddComponent<MeshFilter>();
+            go.AddComponent<MeshCollider>();
+            var prefab = PrefabUtility.SaveAsPrefabAsset(go, MeshPrefabPath);
+            UnityEngine.Object.DestroyImmediate(go);
+            return prefab.GetComponent<MeshFilter>();
         }
 
         private static InputAction MakeAction(string name, string binding)

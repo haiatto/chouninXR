@@ -6,6 +6,8 @@ namespace ChouninXR.EditorSim
     // エディタ確認用の歩き回り操作。
     //   WASD / 矢印: 移動   右ドラッグ: 見回す   Shift: 走る
     //   Space / 左クリック: セリフを送る
+    //   Tab: 配置の編集モード切り替え
+    //     編集中：左クリック=持ち上げ／置く  N=追加  Q/E=回転  Delete=削除  Esc=取り消し
     public class SimPlayer : MonoBehaviour
     {
         public float walkSpeed = 1.4f;
@@ -15,6 +17,7 @@ namespace ChouninXR.EditorSim
 
         public ChouninSpawner spawner;
         public SimWorld world;
+        public PlacementEditor editor;
 
         private float _yaw;
         private float _pitch;
@@ -58,7 +61,27 @@ namespace ChouninXR.EditorSim
                 transform.position += flat * speed * Time.deltaTime;
             }
 
-            if (kb.spaceKey.wasPressedThisFrame || mouse.leftButton.wasPressedThisFrame)
+            if (editor != null && kb.tabKey.wasPressedThisFrame)
+            {
+                editor.SetEditing(!editor.IsEditing);
+            }
+
+            if (editor != null && editor.IsEditing)
+            {
+                var cam = GetComponent<Camera>();
+                if (cam != null)
+                {
+                    editor.SetPointer(cam.ScreenPointToRay(mouse.position.ReadValue()));
+                }
+                if (mouse.leftButton.wasPressedThisFrame) editor.Primary();
+                if (kb.nKey.wasPressedThisFrame) editor.AddNew();
+                if (kb.qKey.wasPressedThisFrame) editor.Rotate(-15f);
+                if (kb.eKey.wasPressedThisFrame) editor.Rotate(15f);
+                if (kb.deleteKey.wasPressedThisFrame || kb.backspaceKey.wasPressedThisFrame) editor.Delete();
+                if (kb.escapeKey.wasPressedThisFrame) editor.Cancel();
+                if (kb.spaceKey.wasPressedThisFrame) spawner?.CurrentTalker()?.Advance();
+            }
+            else if (kb.spaceKey.wasPressedThisFrame || mouse.leftButton.wasPressedThisFrame)
             {
                 spawner?.CurrentTalker()?.Advance();
             }

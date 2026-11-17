@@ -9,7 +9,9 @@
         "Unity.XR.ARSubsystems",
         "Unity.XR.OpenXR",
         "Unity.TextMeshPro",
-        "Google.XR.Extensions.SpatialEntities"
+        "Google.XR.Extensions.SpatialEntities",
+        "Unity.XR.Hands",
+        "Unity.XR.CoreUtils"
     ],
     "includePlatforms": [
         "Android",

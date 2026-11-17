@@ -10,10 +10,13 @@ namespace ChouninXR.AndroidXR
     // 参考：com.google.xr.extensions の Samples~/Geospatial
     // ※ 実機未検証の初版。AURA 到着後に調整する。
     [RequireComponent(typeof(AndroidXRPermissionUtil))]
-    public class AndroidXrWorld : MonoBehaviour, IChouninWorld
+    public class AndroidXrWorld : MonoBehaviour, IChouninPlacementWorld
     {
         public XRGeospatialManager geospatialManager;
         public Camera viewerCamera;
+        public AuraSurface surface;
+
+        public IChouninSurface Surface => surface;
 
         [Tooltip("この精度[m]より良くなったら町人を置き始める")]
         public double requiredHorizontalAccuracy = 5.0;
@@ -134,6 +137,9 @@ namespace ChouninXR.AndroidXR
                 switch (p.altitudeMode)
                 {
                     case AltitudeModes.Wgs84:
+                    case AltitudeModes.Surface:
+                        // surface は altitude（置いたときの高度）を仮の高さにし、
+                        // 実際の高さは SurfaceSnapper がメッシュ・平面・地面相当から決める
                         result = geospatialManager.TryAttachGeospatialAnchor(
                             new XRGeospatialPose(rotation, p.lat, p.lng, p.altitude));
                         break;
@@ -172,6 +178,28 @@ namespace ChouninXR.AndroidXR
                 Debug.LogException(e);
                 onPlaced(null);
             }
+        }
+
+        // Android XR Geospatial：緯度経度 = WGS84、Altitude = WGS84 楕円体高、
+        // Rotation = EUS（+X=東、+Y=上、+Z=南）。町人XR の基準（GeoPose）とは回転だけ直す
+        public bool TryGetGeoPose(Vector3 position, Quaternion rotation, out GeoPose pose)
+        {
+            pose = default;
+            if (!IsReady || !geospatialManager.TryLocate(new Pose(position, rotation), out XRGeospatialPoseResult r) ||
+                !r.IsPositionValid)
+            {
+                return false;
+            }
+            pose.lat = r.Pose.Latitude;
+            pose.lng = r.Pose.Longitude;
+            pose.altitude = r.Pose.Altitude;
+            // EUS の Y 軸回転 → 真北基準の方位（HeadingToRotationEus の逆）
+            pose.heading = Mathf.Repeat(180f - r.Pose.Rotation.eulerAngles.y, 360f);
+            pose.horizontalAccuracy = r.HorizontalAccuracy;
+            pose.verticalAccuracy = r.VerticalAccuracy;
+            pose.headingAccuracy = r.OrientationYawAccuracy;
+            pose.source = GeoSources.GeospatialVps;
+            return true;
         }
 
         public void ReleasePlacement(Transform placed)

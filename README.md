@@ -30,6 +30,7 @@ Google の Geospatial API（VPS）で緯度・経度・高度に町人を配置�
 1. Unity Hub で `ChouninXR/` を開く（Unity 6000.6.7f1）
 2. `Assets/ChouninXR/Scenes/EditorSim.unity` を開いて再生
 3. WASD で歩き、町人に近づくとセリフが出る。Space / クリックで送る
+4. Tab で配置の編集：クリックで持ち上げ／置く、N で追加、Q/E で回転、Delete で削除（村フォルダの `.trash` へ移動）、Esc で取り消し
 
 町人の姿は `villages/sample/chounin/<id>/model.vrm` に VRM を置くと反映されます（無ければ仮の体）。
 VRM ファイルは配布条件がモデルごとに違うため、リポジトリにはコミットしない設定にしています。
@@ -54,6 +55,10 @@ VRM ファイルは配布条件がモデルごとに違うため、リポジト�
 3. メニュー **ChouninXR > AURA > APK ビルド**（`ChouninXR/Builds/Aura/` に出力）
 
 `villages/` の村データはビルド時に自動でアプリへ同梱され、初回起動時に端末へ展開されます。
+
+AURA での配置編集（仮の操作。実機で見直します）：左手ピンチ長押しで編集の開始／終了、右手ピンチで持ち上げ／置く、左手ピンチで追加（持っているときは 30° 回転）、右手長押しで取り消し、両手長押しで削除。
+
+座標の基準（WGS84・楕円体高・真北）は [docs/COORDINATES.md](docs/COORDINATES.md) を参照してください。
 
 ## Google Cloud の設定（Keyless 認証）
 

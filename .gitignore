@@ -65,3 +65,6 @@ ChouninXR/Assets/StreamingAssets/villages.meta
 
 # Android ビルドの中間ファイル
 ChouninXR/.utmp/
+
+# 編集で消した町人の退避先
+villages/**/.trash/
